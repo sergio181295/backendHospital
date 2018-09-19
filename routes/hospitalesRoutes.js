@@ -47,7 +47,7 @@ app.post ('/', mdAutenticacion.verificarToken, (req, res, next) => {
         res.status(201).json({
             ok: false,
             mensaje: 'hospital creado con exito.',
-            nuevoHospital: hospital,
+            hospital: hospital,
             usuarioToken: req.usuarioToken
         });
     });
@@ -56,10 +56,10 @@ app.post ('/', mdAutenticacion.verificarToken, (req, res, next) => {
 //====================================//
 // ** Actualizar Hospitales **
 //====================================//
-app.put('/:id', mdAutenticacion.verificarToken, (req, res, next) => {
+app.put('/', mdAutenticacion.verificarToken, (req, res, next) => {
     var nuevoHospital = {nombre: req.body.nombre};
 
-    Hospital.findByIdAndUpdate (req.params.id, nuevoHospital, {new: true}, (err, hospitalEditado) => {
+    Hospital.findByIdAndUpdate(req.query.id, nuevoHospital, {new: true}, (err, hospitalEditado) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -86,8 +86,8 @@ app.put('/:id', mdAutenticacion.verificarToken, (req, res, next) => {
 //====================================//
 // ** Elimina Hospital **
 //====================================//    
-app.delete('/:id', mdAutenticacion.verificarToken, (req, res, next) => {
-    Hospital.findByIdAndRemove (req.params.id, (err, hospital) => {
+app.delete('/', mdAutenticacion.verificarToken, (req, res, next) => {
+    Hospital.findByIdAndRemove(req.query.id, (err, hospital) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
